@@ -206,6 +206,27 @@
 }
 /* cards */
 
+/*carrito*/
+.list-cart {
+    position: absolute;
+    top: 50px;
+    /* Ajusta según tu diseño */
+    right: 0;
+    width: 300px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Mostrar carrito cuando el mouse pasa sobre .carrito */
+.carrito:hover .list-cart {
+    opacity: 1;
+    visibility: visible;
+}
 /* burger */
 #burger{
     margin-top: 100px;
@@ -776,19 +797,92 @@ input[type=date], input[type=text], input[type=email], input[type=file], input[t
     justify-content: center;
     align-items: center;
 }
-.btn-product{
-    padding: 17px 37px;
-    background-color: #ffc800;
-    border-radius: 10px;
-    border: 2px solid black;
+.btn-product {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ff5722;
+    /* Color llamativo */
+    color: white;
+    border-radius: 50%;
+    /* Hace el botón circular */
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-left: 10px;
 }
-.list-cart{
-    position: absolute;
-    top: 62px;
-    right: 0;
-    width: 200px !important;
-    background-color: #fff;
+
+.btn-product:hover {
+    background: #e64a19;
+    transform: scale(1.1);
+}
+
+.btn-product i {
+    margin: 0;
+}
+
+.precio {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
 }
 .ocultar{
     display: none;
+}
+.list-cart {
+  width: 100%; /* Hace que la tabla ocupe todo el ancho disponible */
+  max-width: 900px; /* Limita el ancho para que no se vea demasiado grande */
+  margin: auto; /* Centra la tabla */
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.list-cart th,
+.list-cart td {
+    padding: 15px;
+    /* Más espacio en celdas */
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.list-cart thead th {
+    padding: 20px;
+    /* Más espacio en los encabezados */
+    text-align: center;
+    background: #ff5722;
+    /* Color llamativo */
+    color: white;
+    font-size: 12px;
+    /* Tamaño de letra más grande */
+    text-transform: uppercase;
+    /* Resaltar títulos */
+    letter-spacing: 3px;
+    /* Más espacio entre letras */
+    border-bottom: 3px solid #ddd;
+    /* Línea separadora más gruesa */
+}
+
+.list-cart thead tr th {
+    height: 60px;
+    /* Más altura en la fila del encabezado */
+    width: 300px;
+}
+
+.btn-cart {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.btn-cart:hover {
+  background: #0056b3;
 }
