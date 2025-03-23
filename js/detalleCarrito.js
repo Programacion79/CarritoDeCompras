@@ -25,7 +25,7 @@ function cargarProductos() {
         fila.innerHTML = `
             <td>
                 <div class="d-flex flex-column align-items-start text-center">
-                    <button onclick="borrarProducto(${producto.id})" 
+                    <button onclick="borrarProducto(${i})" 
                         class="btn btn-sm btn-outline-danger d-flex align-items-center justify-content-center rounded-circle shadow-sm mb-1" 
                         style="width: 28px; height: 28px;">
                         <i class="fas fa-trash-alt" style="font-size: 12px;"></i>
@@ -45,13 +45,13 @@ function cargarProductos() {
                     <div class="decrement" onclick="actualizarCantidad(${i}, -1)">
                         <i class="fa-solid fa-minus"></i>
                     </div>
-                    <input class="text" type="number" name="quantity" value="${producto.cantidad || 1}" maxlength="2" size="1" readonly>
+                    <input class="number" type="text" name="quantity" value="${producto.cantidad || 1}" maxlength="2" size="1" readonly>
                     <div class="increment" onclick="actualizarCantidad(${i}, 1)">
                         <i class="fa-solid fa-plus"></i>
                     </div>
                 </div>
             </td>
-            <td>$${producto.precio}</td>
+            <td>$${(producto.precio * producto.cantidad).toFixed(3)}</td>
             `;
             tablaCarrito.appendChild(fila);
         }); // <--- La llave y el paréntesis estaban mal colocados
@@ -103,3 +103,21 @@ function actualizarCantidad(pos, cambio) {
   // RECARGAR LA TABLA PARA MOTRAR LOS CAMBIOS O REFLEJARLOS
   cargarProductos();
 }
+
+//FUNCION PARA BORRAR PRODUCTOS DEL DETALLE CARRITO
+function borrarProducto(pos){
+      let productosGuardados =JSON.parse(localStorage.getItem(claveCarrito)) || [];
+
+      //ELIMINAR PRODUCTO
+      productosGuardados.splice(pos,1);
+      localStorage.setItem(claveCarrito,JSON.stringify(productosGuardados));
+      //RECARGAR PRODUCTO
+      cargarProductos();
+}
+
+//RESUMEN DE LA COMPRA
+function resumenCompra(){
+    let productosGuardados =JSON.parse(localStorage.getItem(claveCarrito)) || [];
+
+}
+
