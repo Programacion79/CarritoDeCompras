@@ -1,7 +1,9 @@
-alert("Hola Mundo");
+//alert("Hola Mundo");
 // VARIABLES GLOBALES
 let claveCarrito = "productos"; // Clave usada en localStorage
 let tablaCarrito = document.querySelector(".cart-table tbody");
+let resumenSubTotal = document.querySelector(".res-sub-total");
+
 
 // EVENTO AL RECARGAR LA PÁGINA
 document.addEventListener("DOMContentLoaded", () => {
@@ -64,6 +66,8 @@ function cargarProductos() {
         `;
         tablaCarrito.appendChild(fila);
     }  
+    //EJECUTAR EL RESUMEN DE LA COMPRA
+    resumenCompra();
 }
 // FUNCIÓN PARA ACTUALIZAR CANTIDADES DEL PRODUCTO
 function actualizarCantidad(pos, cambio) {
@@ -117,7 +121,17 @@ function borrarProducto(pos){
 
 //RESUMEN DE LA COMPRA
 function resumenCompra(){
-    let productosGuardados =JSON.parse(localStorage.getItem(claveCarrito)) || [];
+  let productosGuardados = JSON.parse(localStorage.getItem(claveCarrito)) || [];
+  let subtotal = 0; //ACUMILA EL SUBTOTAL DE LOS PRODUCTOS
+  //RECORRER CADA PRODUCTO Y ACUMULAMOS EN EL SUBTOTAL
+  productosGuardados.forEach((producto) => {
+    subtotal += producto.precio * producto.cantidad;
+  });
+  console.log(subtotal.toFixed(3));
+  //MOSTRAR LOS CALCULOS
+  resumenSubTotal.textContent = subtotal.toFixed(3);
 
+  // GUARDAR CAMBIOS EN EL LOCALSTORAGE
+  localStorage.setItem(claveCarrito, JSON.stringify(productosGuardados));
 }
 
