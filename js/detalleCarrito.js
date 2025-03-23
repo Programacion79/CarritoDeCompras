@@ -3,6 +3,9 @@
 let claveCarrito = "productos"; // Clave usada en localStorage
 let tablaCarrito = document.querySelector(".cart-table tbody");
 let resumenSubTotal = document.querySelector(".res-sub-total");
+let resumenDescuento = document.querySelector(".promo");
+let resumenTotal= document.querySelector(".total");
+let resumenDestino = document.querySelector(".destino");
 
 
 // EVENTO AL RECARGAR LA PÁGINA
@@ -15,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // FUNCIÓN PARA CARGAR PRODUCTOS DEL LOCALSTORAGE
 function cargarProductos() {
   let productosGuardados = JSON.parse(localStorage.getItem(claveCarrito)) || [];
+
 
   //LIMPIAR LA TABLA ANTES DE AGREGAR LOS PRODUCTOS
   tablaCarrito.innerHTML = "";
@@ -35,27 +39,32 @@ function cargarProductos() {
                     <img src="${
                       producto.imagen
                     }" class="rounded shadow-sm" width="60" height="60" style="object-fit: cover;">
-                    <span class="nombre-producto fw-semibold text-dark mt-1" 
+                    <span class="nombre-producto fw-semibold text-dark mt-1 justify-content-lg-end" 
                         style="font-size: 13px; max-width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                         ${producto.titulo}
                     </span>
                 </div>
             </td>
-            <td>$${producto.precio}</td>
+            <td>${producto.precio.toLocaleString("es-CO", {
+              style: "currency",
+              currency: "COP",
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}</td>
             <td>
                 <div class="quantity quantity-wrap">
                     <div class="decrement" onclick="actualizarCantidad(${i}, -1)">
                         <i class="fa-solid fa-minus"></i>
                     </div>
-                    <input class="number" type="text" name="quantity" value="${producto.cantidad || 1}" maxlength="2" size="1" readonly>
+                    <input class="number" type="text" name="quantity" value="${
+                      producto.cantidad || 1
+                    }" maxlength="2" size="1" readonly>
                     <div class="increment" onclick="actualizarCantidad(${i}, 1)">
                         <i class="fa-solid fa-plus"></i>
                     </div>
                 </div>
             </td>
-            <td>$${(producto.precio * producto.cantidad).toFixed(3)}</td>
-            `;
-            tablaCarrito.appendChild(fila);
+            <td>${(producto.precio * producto.cantidad).toLocaleString("es-CO", {style: "currency",currency: "COP",maximumFractionDigits: 0,})}</td>`;tablaCarrito.appendChild(fila);
         }); // <--- La llave y el paréntesis estaban mal colocados
     }else{
         let fila = document.createElement("tr");
@@ -125,13 +134,32 @@ function resumenCompra(){
   let subtotal = 0; //ACUMILA EL SUBTOTAL DE LOS PRODUCTOS
   //RECORRER CADA PRODUCTO Y ACUMULAMOS EN EL SUBTOTAL
   productosGuardados.forEach((producto) => {
-    subtotal += producto.precio * producto.cantidad;
+    //let precio = parseFloat(producto.precio) || 0;
+    let precio = parseFloat(producto.precio) || 1; // Convertir el precio a número
+    let cantidad = parseInt(producto.cantidad) || 0; // Asegurar que la cantidad es un número
+    subtotal += precio * cantidad;
   });
-  console.log(subtotal.toFixed(3));
+  //CALCULAR DESCUENTO,DEL 10% SI LA COMPRA ES MAYOR A 100.000
+let descuento = subtotal > 100000 ? subtotal * 0.1 : 0;
+
+  // CALCULA E; TOTAL APAGAR DE LA COMPRA 
+let totalApagar = subtotal - descuento;
+
+  console.log(subtotal.toFixed(2));
   //MOSTRAR LOS CALCULOS
-  resumenSubTotal.textContent = subtotal.toFixed(3);
+    //resumenSubTotal.textContent = subtotal.toFixed(2);
+    resumenSubTotal.innerHTML = `<span class="simbolo-pesos">$</span>${subtotal.toLocaleString("es-CO")}`;
+    console.log(subtotal.toFixed(2));
+    //resumenDescuento.textContent = descuento.toFixed(2);
+    resumenDescuento.innerHTML = `<span class="simbolo-pesos">$</span>${descuento.toLocaleString("es-CO")}`;
+    resumenTotal.textContent = totalApagar.toFixed(2);
+    //console.log(totalApagar.toFixed(2));
+    resumenTotal.innerHTML = `<span class="simbolo-pesos">$</span>${totalApagar.toLocaleString("es-CO")}`;
 
-  // GUARDAR CAMBIOS EN EL LOCALSTORAGE
-  localStorage.setItem(claveCarrito, JSON.stringify(productosGuardados));
+//
+
+// GUARDAR CAMBIOS EN EL LOCALSTORAGE
+localStorage.setItem(claveCarrito, JSON.stringify(productosGuardados));
+    
+console.log(cargarProductos);
 }
-

@@ -26,7 +26,10 @@ function guardarCarritoEnLocalstorage() {
     let cantidad = parseInt(fila.querySelector(".cantidad").textContent);
     let imagen = fila.querySelector("img").src;
     let titulo = fila.children[2].textContent;
-    let precio = fila.children[3].textContent.split("$")[1];
+    //let precio = fila.children[3].textContent.split("$")[1];
+    // Intentar extraer el precio correctamente
+    let precioTexto = fila.children[3].textContent.replace(/\D/g, ""); // Elimina todo excepto números
+    let precio = parseFloat(precioTexto) || 0; // Convierte a número y evita NaN
 
     productosCarrito.push({ id, cantidad, imagen, titulo, precio });
   });
@@ -37,11 +40,11 @@ function guardarCarritoEnLocalstorage() {
 // AGREGAR PRODUCTO AL CARRITO
 function agregarProducto(button) {
   let producto = {
-    id: button.dataset.id,
     cantidad: 1,
     imagen: button.dataset.imagen,
     titulo: button.dataset.titulo,
-    precio: button.dataset.precio,
+    precio: parseFloat(button.dataset.precio.replace(".", "")) || 0, // Elimina puntos y convierte en número
+    id: button.dataset.id,
   };
 
   let filas = listadoCarrito.querySelectorAll("tr");
@@ -62,13 +65,13 @@ function agregarProducto(button) {
     let fila = document.createElement("tr");
     fila.setAttribute("data-id", producto.id);
     fila.innerHTML = `
-          <td class="cantidad">${producto.cantidad}</td>
-          <td><img src="${producto.imagen}" width="80"></td>
-          <td>${producto.titulo}</td>
-          <td>$${producto.precio}</td>
-          <td>
-              <a href="#" class="borrar-producto fas fa-times-circle"></a>
-          </td>
+      <td class="cantidad">${producto.cantidad}</td>
+      <td><img src="${producto.imagen}" width="80"></td>
+        <td>${producto.titulo}</td>
+        <td>$${producto.precio}</td>
+        <td>
+          <a href="#" class="borrar-producto fas fa-times-circle"></a>
+        </td>
     `;
     listadoCarrito.appendChild(fila);
 
@@ -97,8 +100,11 @@ function eliminarProducto(fila) {
     fila.remove();
   }
 
-  con--;
+    if (con > 0) {
+      con--; // Evita que el contador sea negativo
+    }
   contadorCarrito.textContent = con;
+    actualizarTotalCarrito(); // Si tienes una función para actualizar el total
 
   guardarCarritoEnLocalstorage();
 }
@@ -111,11 +117,13 @@ function cargarCarritoDesdeLocalStorage() {
     let fila = d.createElement("tr");
     fila.setAttribute("data-id", producto.id);
     fila.innerHTML = `
-          <td class="cantidad">${producto.cantidad}</td>
-          <td><img src="${producto.imagen}" width="80"></td>
-          <td>${producto.titulo}</td>
-          <td>${producto.precio}</td>
-          <td><a href="#" class="borrar-producto fas fa-times-circle"></a></td>
+    <td class="cantidad">${producto.cantidad}</td>
+    <td><img src="${producto.imagen}" width="80"></td>
+    <td>${producto.titulo}</td>
+    <td>${producto.precio}</td>
+    <td>
+      <a href="#" class="borrar-producto fas fa-times-circle"></a>
+    </td>
     `;
     listadoCarrito.appendChild(fila);
 

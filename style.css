@@ -891,3 +891,32 @@ input[type=date], input[type=text], input[type=email], input[type=file], input[t
     /* Puedes cambiar el color si lo deseas */
     font-weight: 600;
 }
+.res-sub-total {
+    color: #000 !important;
+    font-weight: 500;
+}
+.simbolo-pesos {
+    color: red !important;
+    /* Solo el símbolo de pesos en rojo */
+    font-weight: bold;
+}
+
+.total{
+    color: #000 !important;
+    font-weight: 500;
+}
+.destino {
+    border: none;
+    border-bottom: 2px solid #ffc800;
+    background: transparent;
+    /* Hace que el fondo sea transparente */
+    outline: none;
+    /* Elimina el borde azul de selección */
+    appearance: none;
+    /* Quita el estilo nativo del select */
+    /* Mantiene el ancho */
+    cursor: pointer;
+    /* Mantiene la interacción */
+    padding: 5px 0;
+    /* Ajusta el espacio para mantener el borde visible */
+}
