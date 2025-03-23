@@ -26,7 +26,7 @@ function guardarCarritoEnLocalstorage() {
     let cantidad = parseInt(fila.querySelector(".cantidad").textContent);
     let imagen = fila.querySelector("img").src;
     let titulo = fila.children[2].textContent;
-    let precio = fila.children[3].textContent;
+    let precio = fila.children[3].textContent.split("$")[1];
 
     productosCarrito.push({ id, cantidad, imagen, titulo, precio });
   });
@@ -65,7 +65,7 @@ function agregarProducto(button) {
           <td class="cantidad">${producto.cantidad}</td>
           <td><img src="${producto.imagen}" width="80"></td>
           <td>${producto.titulo}</td>
-          <td>${producto.precio}</td>
+          <td>$${producto.precio}</td>
           <td>
               <a href="#" class="borrar-producto fas fa-times-circle"></a>
           </td>
@@ -132,4 +132,13 @@ function cargarCarritoDesdeLocalStorage() {
 }
 
 // CARGAMOS EL CARRITO AL INICIAR LA PÁGINA
-document.addEventListener("DOMContentLoaded", cargarCarritoDesdeLocalStorage);
+d.addEventListener("DOMContentLoaded", cargarCarritoDesdeLocalStorage);
+
+//OCULTAR EL CARRITO
+contadorCarrito.parentElement.addEventListener("click", ()=>{
+  listadoCarrito.parentElement.classList.toggle("ocultar");
+
+});
+
+
+

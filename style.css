@@ -882,7 +882,12 @@ input[type=date], input[type=text], input[type=email], input[type=file], input[t
   border-radius: 5px;
   transition: 0.3s;
 }
-
-.btn-cart:hover {
-  background: #0056b3;
+.nombre-producto {
+    font-size: 13px;
+    /* Ajusta el tamaño según necesites */
+    display: block;
+    /* Para que el texto se vea debajo de la imagen */
+    color: #333;
+    /* Puedes cambiar el color si lo deseas */
+    font-weight: 600;
 }
