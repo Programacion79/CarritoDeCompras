@@ -7,6 +7,8 @@ let resumenDescuento = document.querySelector(".promo");
 let resumenTotal= document.querySelector(".total");
 let destino = document.querySelector(".destino");
 let resumenDomicilio = document.querySelector(".valor-domi");
+let btnResumen = document.querySelector(".btn-resumen");
+
 
 
 // EVENTO AL RECARGAR LA PÁGINA
@@ -75,6 +77,7 @@ function cargarProductos() {
             </td>
         `;
         tablaCarrito.appendChild(fila);
+        //EJECUTAR EL RESUMEN DE LA COMPRA
     }  
     //EJECUTAR EL RESUMEN DE LA COMPRA
     resumenCompra();
@@ -195,4 +198,28 @@ console.log(cargarProductos);
 destino.addEventListener("change",()=>{
   //let domicilio = Number(this.value); // Convertir a número
   resumenCompra();
+});
+
+//EVENTO AL BOTON PAGAR PARA GUARDAR EL RESUMEN DE LA COMPRA
+btnResumen.addEventListener("click",()=>{
+    //EXTRAER TODOS LOS PRODUCTOS DEL LOCALSTORAGE
+      let productosGuardados =
+        JSON.parse(localStorage.getItem(claveCarrito)) || [];
+        let = resumen = {
+          //COPIAR TODOS LOS PRODUCTOS
+          ...productosGuardados,
+
+        }
+        //LLENAMOS LA VARIABLE RESUME CON LA INFORMACION DEL RESUMEN DE LA COMPRA
+        resumen.subtotal = resumenTotal.textContent;
+        resumen.descuento = resumenDescuento.textContent;
+        resumen.descuento = destino.value;
+        resumen.domicilio = resumenDomicilio.textContent;
+        resumen.totalApagar = resumenTotal.textContent;
+
+        //GUARDAMOS EL RESUMEN DE LA COMPRA EN EL LOCALSTORAGE
+        localStorage.setItem("resumenPago",JSON.stringify(resumen));
+        // REDIRIGIMOS AL USUARIO A LA PAGINA DE PAGO
+        location.href ="checkout.html";
+        console.log(resumen);
 });
